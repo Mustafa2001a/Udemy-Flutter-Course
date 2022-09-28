@@ -44,8 +44,8 @@ class AppCubit extends Cubit<AppStates>
   void changeIndex(int index)
   {
     currentIndex = index;
-    if(index == 1){getSports();}
-    if(index == 2){getScience();}
+    // if(index == 1){getSports();}
+    // if(index == 2){getScience();}
     emit(AppNavBarState());
   }
 
@@ -94,7 +94,6 @@ class AppCubit extends Cubit<AppStates>
       ).then(
               (value) {
             sports = value.data['articles'];
-            print(sports[0]['title']);
             emit(AppGetSportsSuccessState());
           }
       ).catchError((error) {
@@ -159,7 +158,6 @@ class AppCubit extends Cubit<AppStates>
       ).then(
               (value) {
             search = value.data['articles'];
-            print(search[0]['title']);
             emit(AppGetSearchSuccessState());
           }
       ).catchError((error) {

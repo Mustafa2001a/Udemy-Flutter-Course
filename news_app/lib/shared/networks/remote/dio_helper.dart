@@ -11,6 +11,7 @@ class DioHelper
   {
     dio = Dio(
       BaseOptions(
+        validateStatus: (_) => true,
         baseUrl: 'https://newsapi.org/',
         receiveDataWhenStatusError: true,
       ),

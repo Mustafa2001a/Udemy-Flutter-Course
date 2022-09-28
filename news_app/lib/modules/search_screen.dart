@@ -24,6 +24,7 @@ class SearchScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
+
                 defaultFormField(
                     controller: searchController,
                     prefix: Icons.search,
