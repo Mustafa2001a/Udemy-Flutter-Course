@@ -16,7 +16,6 @@ void main() {
     () => runApp(MyApp()),
     blocObserver: MyBlocObserver(),
   );
-
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: HomeLayout(),
     );
   }
 }
