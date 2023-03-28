@@ -12,6 +12,7 @@ import '../modules/new_tasks/new_tasks_screen.dart';
 import '../shared/components/constants.dart';
 
 class HomeLayout extends StatelessWidget {
+
   TextEditingController titleConroller = TextEditingController();
   TextEditingController timeConroller = TextEditingController();
   TextEditingController dateConroller = TextEditingController();
@@ -19,20 +20,26 @@ class HomeLayout extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
   var formKey = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider(
       create: (context) => AppCubit()..createDB(),
-      child: BlocConsumer<AppCubit, AppStates>(listener: (context, state) {
-        if (state is AppInsertState) {
-          Navigator.pop(context);
-          titleConroller.text = '';
-          timeConroller.text = '';
-          dateConroller.text = '';
-        }
-      }, builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
-        return Scaffold(
+      child: BlocConsumer<AppCubit,AppStates>(
+       listener: (context,state)
+        {
+          if(state is AppInsertState)
+            {
+              Navigator.pop(context);
+              titleConroller.text = '';
+              timeConroller.text = '';
+              dateConroller.text = '';
+            }
+        },
+        builder: (context,state) {
+          AppCubit cubit = AppCubit.get(context);
+          return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
             title: cubit.titles[cubit.currIndex],
@@ -44,24 +51,25 @@ class HomeLayout extends StatelessWidget {
             fallback: (context) => Center(child: CircularProgressIndicator()),
           ),
           floatingActionButton: FloatingActionButton(
-            child: Icon(cubit.floatingActionButton),
-            onPressed: () {
-              // var name = await getName();
-              // print(name);
-              // InsertRecordtoDB();
-              if (cubit.isButtonSheet) {
-                if (formKey.currentState!.validate()) {
-                  cubit.InsertRecordtoDB(
-                      title: titleConroller.text,
-                      time: timeConroller.text,
-                      date: dateConroller.text);
-                }
-              } else {
-                scaffoldKey.currentState
-                    ?.showBottomSheet(
-                      (context) => Form(
-                        key: formKey,
-                        child: Column(
+              child: Icon(cubit.floatingActionButton),
+              onPressed: () {
+                // var name = await getName();
+                // print(name);
+                // InsertRecordtoDB();
+                if (cubit.isButtonSheet) {
+                  if (formKey.currentState!.validate()) {
+                    cubit.InsertRecordtoDB(
+                        title: titleConroller.text,
+                        time: timeConroller.text,
+                        date: dateConroller.text
+                    );
+                  }
+                } else {
+                  scaffoldKey.currentState
+                      ?.showBottomSheet(
+                        (context) => Form(
+                      key: formKey,
+                      child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             defaultFormField(
@@ -112,7 +120,7 @@ class HomeLayout extends StatelessWidget {
                               onTapFunction: () {
                                 showDatePicker(
                                   context: context,
-                                  lastDate: DateTime.parse('2022-12-30'),
+                                  lastDate: DateTime.parse('2022-08-29'),
                                   firstDate: DateTime.now(),
                                   initialDate: DateTime.now(),
                                 ).then((value) {
@@ -130,18 +138,18 @@ class HomeLayout extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
-                      elevation: 20.0,
-                    )
-                    .closed
-                    .then((value) {
-                  cubit.ChangeBottonSheetState(
-                      isShown: false, icon: Icons.edit);
-                });
-                cubit.ChangeBottonSheetState(isShown: true, icon: Icons.add);
-              }
-            },
-          ),
+
+                    ),
+                    elevation: 20.0,
+                  )
+                      .closed
+                      .then((value){
+                        cubit.ChangeBottonSheetState(isShown: false, icon: Icons.edit);
+                  });
+                  cubit.ChangeBottonSheetState(isShown: true, icon: Icons.add);
+                }
+              },
+              ),
           bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               currentIndex: cubit.currIndex,
@@ -163,12 +171,15 @@ class HomeLayout extends StatelessWidget {
                 ),
               ]),
         );
-      }),
+        }
+
+      ),
     );
   }
 
   // Future<String> getName() async {
   //   return 'Mustafa Shihab';
   // }
+
 
 }
